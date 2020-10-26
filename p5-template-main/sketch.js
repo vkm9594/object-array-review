@@ -14,6 +14,12 @@ function draw() {
     
     if (ball.y >= height && ball.dy > 0) {
       ball.dy = -0.95 * ball.dy;
+
+    }
+
+     ball.x += ball.dx;
+    if (ball.x >= width || ball.x <= 0) {
+      ball.dx = -1 * ball.dx;
     }
   } 
 }
@@ -24,6 +30,7 @@ function addBalls() {
     x: random(width),
     y: random(50),
     dy: 0,
+    dx: (1, -1, random(-5, 5)),
   };
   bouncingBalls.push(balls);
   }
