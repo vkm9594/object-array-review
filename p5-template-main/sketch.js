@@ -1,8 +1,13 @@
 let bouncingBalls = [];
+let img;
+
+function preload() {
+  img = loadImage('an-i-oop.jpg');
+}
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  for(i = 0; i < 2; i++) {
+  for (i = 0; i < 2; i++) {
     let x = random(width);
     let y = random(50);
     let dy = 0;
@@ -22,13 +27,15 @@ function draw() {
 
 class Ball {
   constructor(x, y, dy, dx, c) {
-      this.x = x;
-      this.y = y;
-      this.dy = dy;
-      this.dx = dx;
-      this.color = c;
+    this.x = x;
+    this.y = y;
+    this.dy = dy;
+    this.dx = dx;
+    this.color = c;
   }
   update() {
+    this.y += this.dy;
+    this.dy += 0.25;
     this.x += this.dx;
     if (this.y >= height && this.dy > 0) {
       this.dy = -0.95 * this.dy;
@@ -36,11 +43,17 @@ class Ball {
     if (this.x >= width || this.x <= 0) {
       this.dx = -1 * this.dx;
     }
+
   }
-  display() { 
+  display() {
     fill(this.color);
-    this.y += this.dy;
-    this.dy += 0.25;
-    circle(this.x, this.y, 50); 
+    if (mouseIsPressed) {
+      push();
+      img.resize(150, 0);
+      image(img, this.x, this.y);
+      pop();
+    } else {
+      circle(this.x, this.y, 50);
+    }
   }
 }
