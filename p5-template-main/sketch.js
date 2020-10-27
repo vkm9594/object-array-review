@@ -2,44 +2,45 @@ let bouncingBalls = [];
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  addBalls();
+  for(i = 0; i < 2; i++) {
+    let x = random(width);
+    let y = random(50);
+    let dy = 0;
+    let dx = (1, -1, random(-5, 5), random(-1, 1), random(-10, 10));
+    let c = color(random(0, 255), random(0, 255), random(0, 255));
+    bouncingBalls[i] = new Ball(x, y, dy, dx, c);
+  }
 }
 
 function draw() {
   background(200);
-  for (ball of bouncingBalls) {
-    fill(ball.color);
-    ball.y += ball.dy;
-    ball.dy += 0.25;
-    circle(ball.x, ball.y, 50); 
-    
-    if (ball.y >= height && ball.dy > 0) {
-      ball.dy = -0.95 * ball.dy;
-    }
-
-     ball.x += ball.dx;
-    if (ball.x >= width || ball.x <= 0) {
-      ball.dx = -1 * ball.dx;
-    }
-  } 
-  addMoreBalls();
-}
-
-function addBalls() {
- for(i = 0; i < 2; i++) {
-  balls = {
-    x: random(width),
-    y: random(50),
-    dy: 0,
-    dx: (1, -1, random(-5, 5)),
-    color: color(random(['red', 'blue', 'yellow', 'green', 'purple', 'orange'])),
-  };
-  bouncingBalls.push(balls);
+  for (let ball of bouncingBalls) {
+    ball.update();
+    ball.display();
   }
 }
 
-function addMoreBalls() {
-  if (mouseIsPressed) {
-    addBalls();
+class Ball {
+  constructor(x, y, dy, dx, c) {
+      this.x = x;
+      this.y = y;
+      this.dy = dy;
+      this.dx = dx;
+      this.color = c;
+  }
+  update() {
+    this.x += this.dx;
+    if (this.y >= height && this.dy > 0) {
+      this.dy = -0.95 * this.dy;
+    }
+    if (this.x >= width || this.x <= 0) {
+      this.dx = -1 * this.dx;
+    }
+  }
+  display() { 
+    fill(this.color);
+    this.y += this.dy;
+    this.dy += 0.25;
+    circle(this.x, this.y, 50); 
   }
 }
